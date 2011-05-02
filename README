@@ -1,6 +1,16 @@
+What is this?
+-------------
 This repository contains a simple Swing Java-based XML validator, which given an XSD or DTD file and an XML file, will
 check whether the XML data is valid according to the schema.
 
 Validation is carried out using the XML validation API available in Java 6.
 
 The JRE 6 is required to run this application.
+
+How to build
+------------
+The application is built with Ant using any of the follwing targets:
+
+ant compile - compiles all the source code
+ant jar - generates a JAR file with the source code and places is in folder dist/lib/
+ant dist - generates a redistributable package in the dist/ folder
