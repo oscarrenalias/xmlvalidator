@@ -1,0 +1,6 @@
+This repository contains a simple Swing Java-based XML validator, which given an XSD or DTD file and an XML file, will
+check whether the XML data is valid according to the schema.
+
+Validation is carried out using the XML validation API available in Java 6.
+
+The JRE 6 is required to run this application.
