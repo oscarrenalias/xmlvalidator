@@ -2,12 +2,12 @@ package net.renalias.xmlvalidator.ui.components;
 
 import net.renalias.xmlvalidator.core.ValidationError;
 
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ValidationDataTab extends JPanel implements ElementSelectedListener {
 
@@ -58,10 +58,17 @@ public class ValidationDataTab extends JPanel implements ElementSelectedListener
 			}
 
 			// these events are not needed
-			public void mousePressed(MouseEvent e) {}
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
+			public void mousePressed(MouseEvent e) {
+			}
+
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			public void mouseExited(MouseEvent e) {
+			}
 		});
 
 		addElementSelectedListener(this);
@@ -76,13 +83,13 @@ public class ValidationDataTab extends JPanel implements ElementSelectedListener
 	}
 
 	public void fireElementSelectedEvent(ValidationError validationError) {
-		for(ElementSelectedListener listener : selectedListenerList) {
+		for (ElementSelectedListener listener : selectedListenerList) {
 			listener.onElementSelected(validationError);
 		}
 	}
 
 	public void fireElementDoubleClickedEvent(ValidationError validationError) {
-		for(ElementDoubleClickedListener listener : doubleClickedListenerList) {
+		for (ElementDoubleClickedListener listener : doubleClickedListenerList) {
 			listener.onElementDoubleClicked(validationError);
 		}
 	}

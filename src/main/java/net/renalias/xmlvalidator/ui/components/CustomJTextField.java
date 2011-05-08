@@ -25,7 +25,7 @@ public class CustomJTextField extends JTextField implements DocumentListener {
 	}
 
 	protected void fireContentChangeEvent(DocumentEvent e) {
-		for(ContentChangeListener listener : listeners) {
+		for (ContentChangeListener listener : listeners) {
 			listener.onContentChange(e, this);
 		}
 	}

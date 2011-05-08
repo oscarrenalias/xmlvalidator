@@ -32,15 +32,11 @@ public class XmlValidatorUI extends JPanel implements ValidateButtonClickedListe
 	}
 
 	public void setSchemaFileName(String schemaFile) {
-		//schemaFileName.setText(schemaFile);
+		editorTab.setSchemaFile(schemaFile);
 	}
 
 	public void setMessageFileName(String messageFile) {
-		//messageFileName.setText(messageFile);
-	}
-
-	public void setValidateButton(boolean enabled) {
-		//validateButton.setEnabled(enabled);
+		editorTab.setMessageFile(messageFile);
 	}
 
 	public void onValidateButtonClicked() {

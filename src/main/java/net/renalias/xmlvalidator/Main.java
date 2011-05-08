@@ -22,8 +22,6 @@ public class Main {
 		if (args.length == 2) {
 			mainUI.setSchemaFileName(args[0]);
 			mainUI.setMessageFileName(args[1]);
-			// activate the validation button, since it's inactive by default
-			mainUI.setValidateButton(true);
 		}
 		frame.add(mainUI);
 

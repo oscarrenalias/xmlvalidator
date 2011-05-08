@@ -5,8 +5,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
@@ -14,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class EditorTab extends JPanel implements ActionListener {
 
@@ -42,7 +42,7 @@ public class EditorTab extends JPanel implements ActionListener {
 		messageData.setEditable(true);
 		RTextScrollPane messageDataScrollPane = new RTextScrollPane(messageData);
 		messageDataScrollPane.setLineNumbersEnabled(true);
-	    return(messageDataScrollPane);
+		return (messageDataScrollPane);
 	}
 
 	private Component buildFileSelectors() {
@@ -97,7 +97,7 @@ public class EditorTab extends JPanel implements ActionListener {
 		validateButton.addActionListener(this);
 		topPanel.add(validatePanel);
 
-		return(topPanel);
+		return (topPanel);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -108,9 +108,6 @@ public class EditorTab extends JPanel implements ActionListener {
 						FileHelper.isFile(fileChooser.getSelectedFile().getAbsolutePath())) {
 					// update the file name in the text field
 					messageFileName.setText(fileChooser.getSelectedFile().getAbsolutePath());
-					// no need to do anything else, the text field's change event listener will
-					// take care of loading the file into the text area
-                    //validationList.setModel(new ValidationErrorsTableModel());
 				} else {
 					JOptionPane.showMessageDialog(null, "File cannot be loaded", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -130,24 +127,32 @@ public class EditorTab extends JPanel implements ActionListener {
 	}
 
 	protected void fireValidateButtonClicked() {
-		for(ValidateButtonClickedListener validateButtonClickedListener : validateButtonClickedListenerList) {
+		for (ValidateButtonClickedListener validateButtonClickedListener : validateButtonClickedListenerList) {
 			validateButtonClickedListener.onValidateButtonClicked();
 		}
 	}
 
 	public String getSchemaFile() {
-		return(schemaFileName.getText());
+		return (schemaFileName.getText());
+	}
+
+	public void setSchemaFile(String fileName) {
+		schemaFileName.setText(fileName);
 	}
 
 	public String getMessageFile() {
-		return(messageFileName.getText());
+		return (messageFileName.getText());
+	}
+
+	public void setMessageFile(String fileName) {
+		messageFileName.setText(fileName);
 	}
 
 	public String getMessageText() {
-		return(messageData.getText());
+		return (messageData.getText());
 	}
 
 	public RSyntaxTextArea getMessageData() {
-		return(messageData);
+		return (messageData);
 	}
 }
