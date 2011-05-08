@@ -1,2 +1,2 @@
 #!/bin/sh
-java -classpath lib/@JARFILE@ net.renalias.xmlvalidator.ui.MainUI
+java -classpath lib/@JARFILE@ net.renalias.xmlvalidator.ui.XmlValidatorUI

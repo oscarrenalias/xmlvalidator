@@ -1,15 +1,13 @@
-package net.renalias.xmlvalidator.ui.support;
-
-import net.renalias.xmlvalidator.ui.support.NicerJTable;
-
-import javax.swing.text.Element;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+package net.renalias.xmlvalidator.ui.components;
 
 public class ValidationErrorTable extends NicerJTable {
 
 	public ValidationErrorTable() {
 		super();
+		init();
+	}
+
+	protected void init() {
 	}
 
 	public void setModel(ValidationErrorsTableModel validationErrorsTableModel) {

@@ -1,4 +1,4 @@
-package net.renalias.xmlvalidator.ui.support;
+package net.renalias.xmlvalidator.ui.components;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

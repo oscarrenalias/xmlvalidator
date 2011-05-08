@@ -1,4 +1,4 @@
-package net.renalias.xmlvalidator.ui.support;
+package net.renalias.xmlvalidator.ui.components;
 
 import net.renalias.xmlvalidator.core.ValidationError;
 import org.xml.sax.SAXParseException;
