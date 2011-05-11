@@ -39,7 +39,7 @@ public class XmlValidator {
 		}
 	}
 
-    public boolean validateString(String schemaFile, String xmlContent) {
+	public boolean validateContent(String schemaContent, String xmlContent) {
 		// delete any previous errors, in case the same object is being reused
         // TODO: refactor the code
 		validationErrors.clear();
@@ -47,8 +47,7 @@ public class XmlValidator {
 		boolean result = true;
 
 		try {
-			File schemaLocation = new File(schemaFile);
-			Schema schema = factory.newSchema(schemaLocation);
+			Schema schema = factory.newSchema(new StreamSource(new StringReader(schemaContent)));
 			Validator validator = schema.newValidator();
 			validator.setErrorHandler(new XmlValidatorErrorHandler());
 			Source source = new StreamSource(new StringReader(xmlContent));
@@ -59,7 +58,7 @@ public class XmlValidator {
 		} finally {
 			return (result && validationErrors.size() == 0);
 		}
-    }
+	}
 
 	/**
 	 * Parses the file and throws the original exception that was thrown by the validator; however it is

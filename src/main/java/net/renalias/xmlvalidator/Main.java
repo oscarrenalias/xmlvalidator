@@ -1,6 +1,7 @@
 package net.renalias.xmlvalidator;
 
 import net.renalias.xmlvalidator.ui.XmlValidatorUI;
+import net.renalias.xmlvalidator.ui.components.MenuBar;
 
 import javax.swing.*;
 
@@ -13,21 +14,19 @@ public class Main {
 	 */
 	private static void createAndShowGUI(String args[]) {
 		//Create and set up the window.
-		JFrame frame = new JFrame("XML Validator");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//JFrame frame = new JFrame("XML Validator");
 
 		//Add content to the window.
 		XmlValidatorUI mainUI = new XmlValidatorUI();
 		// we can set the file names from the command line, useful for testing
 		if (args.length == 2) {
-			mainUI.setSchemaFileName(args[0]);
-			mainUI.setMessageFileName(args[1]);
+			//mainUI.setSchemaFileName(args[0]);
+			//mainUI.setMessageFileName(args[1]);
 		}
-		frame.add(mainUI);
 
 		//Display the window.
-		frame.pack();
-		frame.setVisible(true);
+		mainUI.pack();
+		mainUI.setVisible(true);
 	}
 
 	public static void main(final String[] args) {
