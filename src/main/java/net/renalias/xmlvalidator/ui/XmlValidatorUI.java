@@ -21,6 +21,8 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	protected SchemaTab schemaTab;
 	private JPanel panel;
 	private MenuBar menubar;
+	JFileChooser fileChooser = new JFileChooser();
+	JFileChooser schemaChooser = new JFileChooser();
 
 	public XmlValidatorUI() {
 		super("XML Validator");
@@ -82,7 +84,6 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		JMenuItem source = (JMenuItem) actionEvent.getSource();
 		System.out.println("Command:" + source.getName());
 		if (source.getName().equals(MenuBar.MENUBAR_COMMAND_OPENXMLFILE)) {
-			JFileChooser fileChooser = new JFileChooser();
 			int returnVal = fileChooser.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
@@ -107,13 +108,12 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 				validateXML();
 		}
 		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_OPENSCHEMAFILE)) {
-			JFileChooser fileChooser = new JFileChooser();
-			int returnVal = fileChooser.showOpenDialog(this);
+			int returnVal = schemaChooser.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
-						FileHelper.isFile(fileChooser.getSelectedFile().getAbsolutePath())) {
+				if (FileHelper.isReadable(schemaChooser.getSelectedFile().getAbsolutePath()) &&
+						FileHelper.isFile(schemaChooser.getSelectedFile().getAbsolutePath())) {
 					try {
-						schemaTab.setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
+						schemaTab.setText(FileHelper.readFile(schemaChooser.getSelectedFile().getAbsolutePath()));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "File cannot be loaded", "Error", JOptionPane.ERROR_MESSAGE);
 					}
