@@ -74,9 +74,6 @@ public class SearchToolBar extends JToolBar implements ActionListener {
 			boolean regex = regexCB.isSelected();
 			boolean found = SearchEngine.find(textArea, text, forward, matchCase, wholeWord, regex);
 
-			if (!found) {
-				JOptionPane.showMessageDialog(this, "Text not found");
-			}
 		} else if ("FindPrev".equals(command)) {
 			String text = searchField.getText();
 			if (text.length() == 0) {
@@ -87,9 +84,6 @@ public class SearchToolBar extends JToolBar implements ActionListener {
 			boolean wholeWord = false;
 			boolean regex = regexCB.isSelected();
 			boolean found = SearchEngine.find(textArea, text, forward, matchCase, wholeWord, regex);
-			if (!found) {
-				JOptionPane.showMessageDialog(this, "Text not found");
-			}
 		}
 	}
 }
