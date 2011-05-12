@@ -6,8 +6,12 @@ import net.renalias.xmlvalidator.core.XmlValidator;
 import net.renalias.xmlvalidator.ui.components.*;
 import net.renalias.xmlvalidator.ui.components.MenuBar;
 import net.renalias.xmlvalidator.ui.support.CaretHelper;
+import net.renalias.xmlvalidator.ui.components.SchemaFileChooser;
+import net.renalias.xmlvalidator.ui.components.SchemaFileChooser.*;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import javax.xml.validation.Validator;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -22,7 +26,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	private JPanel panel;
 	private MenuBar menubar;
 	JFileChooser fileChooser = new JFileChooser();
-	JFileChooser schemaChooser = new JFileChooser();
+	SchemaFileChooser schemaFileChooser;
 
 	public XmlValidatorUI() {
 		super("XML Validator");
@@ -57,13 +61,25 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		});
 
 		validationDataTab.addElementDoubleClickedListener(this);
+
+		schemaFileChooser = new SchemaFileChooser(this);
 	}
 
 	protected void validateXML() {
 		// TODO: move this to a separate thread so that the UI is not blocked
 		XmlValidator validator = new XmlValidator();
 		boolean result = validator.validateContent(schemaTab.getText(), editorTab.getText());
+		handleXMLValidation(validator, result);
+	}
 
+	protected void validateXMLFromSchemaFile(String file) {
+		// TODO: move this to a separate thread so that the UI is not blocked
+		XmlValidator validator = new XmlValidator();
+		boolean result = validator.validateSchemaFile(file, editorTab.getText());
+		handleXMLValidation(validator, result);
+	}
+
+	protected void handleXMLValidation(XmlValidator validator, boolean result) {
 		if (!result) {
 			// switch the tab to the validation error list tab
 			validationDataTab.setValidationErrors(validator.getValidationErrors());
@@ -108,12 +124,12 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 				validateXML();
 		}
 		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_OPENSCHEMAFILE)) {
-			int returnVal = schemaChooser.showOpenDialog(this);
+			int returnVal = fileChooser.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				if (FileHelper.isReadable(schemaChooser.getSelectedFile().getAbsolutePath()) &&
-						FileHelper.isFile(schemaChooser.getSelectedFile().getAbsolutePath())) {
+				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
+						FileHelper.isFile(fileChooser.getSelectedFile().getAbsolutePath())) {
 					try {
-						schemaTab.setText(FileHelper.readFile(schemaChooser.getSelectedFile().getAbsolutePath()));
+						schemaTab.setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "File cannot be loaded", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -126,6 +142,15 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		else if(source.getName().equals(MenuBar.MENUBAR_COMMANT_WORDWRAP)) {
 			editorTab.toggleWordWrap();
 			schemaTab.toggleWordWrap();
+		}
+		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE_EXTERNAL)) {
+			SchemaFileChooserReturnValue returnValue = schemaFileChooser.showDialog();
+			if(returnValue == SchemaFileChooserReturnValue.OK) {
+				String schemaFile = schemaFileChooser.getSchemaFile();
+				validateXMLFromSchemaFile(schemaFile);
+			}
+			else
+				System.out.println("Cancelled!");
 		}
 	}
 }

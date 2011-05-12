@@ -24,6 +24,7 @@ public class EditorTab extends JPanel {
 		messageData = new RSyntaxTextArea(25, 90);
 		messageData.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
 		messageData.setEditable(true);
+		messageData.setMarkAllHighlightColor(Color.YELLOW);
 		RTextScrollPane messageDataScrollPane = new RTextScrollPane(messageData);
 		messageDataScrollPane.setLineNumbersEnabled(true);
 		return (messageDataScrollPane);

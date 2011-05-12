@@ -60,6 +60,29 @@ public class XmlValidator {
 		}
 	}
 
+	public boolean validateSchemaFile(String schemaFile, String xmlContent) {
+		// delete any previous errors, in case the same object is being reused
+		// TODO: refactor the code
+		validationErrors.clear();
+		SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+		boolean result = true;
+
+		try {
+			File schemaLocation = new File(schemaFile);
+			Schema schema = factory.newSchema(schemaLocation);
+			Validator validator = schema.newValidator();
+			validator.setErrorHandler(new XmlValidatorErrorHandler());
+			Source source = new StreamSource(new StringReader(xmlContent));
+			validator.validate(source);
+		} catch (Exception ex) {
+			validationErrors.add(new ValidationError(ex, ValidationError.ValidationExceptionSeverity.FATAL));
+			result = false;
+		} finally {
+			return (result && validationErrors.size() == 0);
+		}
+	}
+
+
 	/**
 	 * Parses the file and throws the original exception that was thrown by the validator; however it is
 	 * advisable that if an exception is generated during parsing, that method getValidationException is used

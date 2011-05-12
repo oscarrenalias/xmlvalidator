@@ -12,13 +12,14 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	List<MenuItemClickedListener> listeners;
 
 	// File menu
-	public static String MENUBAR_COMMAND_OPENXMLFILE = "Open XML file";
-	public static String MENUBAR_COMMAND_OPENSCHEMAFILE = "Open schema file";
-	public static String MENUBAR_COMMAND_SAVEXMLFILE = "Save XML file";
-	public static String MENUBAR_COMMAND_FIND = "Find";
-	public static String MENUBAR_COMMAND_VALIDATE = "Validate";
-	public static String MENUBAR_COMMAND_EXIT = "Exit";
-	public static String MENUBAR_COMMANT_WORDWRAP = "Wordwrap";
+	public static final String MENUBAR_COMMAND_OPENXMLFILE = "Open XML file";
+	public static final String MENUBAR_COMMAND_OPENSCHEMAFILE = "Open schema file";
+	public static final String MENUBAR_COMMAND_SAVEXMLFILE = "Save XML file";
+	public static final String MENUBAR_COMMAND_FIND = "Find";
+	public static final String MENUBAR_COMMAND_VALIDATE = "Validate";
+	public static final String MENUBAR_COMMAND_EXIT = "Exit";
+	public static final String MENUBAR_COMMANT_WORDWRAP = "Wordwrap";
+	public static final String MENUBAR_COMMAND_VALIDATE_EXTERNAL = "Validate with external file";
 
 	public MenuBar() {
 		super();
@@ -100,6 +101,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		validate.setName(MENUBAR_COMMAND_VALIDATE);
 		xml.add(validate);
 
+		// validate with external file
+		JMenuItem validateFile = new JMenuItem("Validate with external file...", KeyEvent.VK_X);
+		validateFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.ALT_MASK));
+		validateFile.getAccessibleContext().setAccessibleDescription("Validate with external file");
+		validateFile.addActionListener(this);
+		validateFile.setName(MENUBAR_COMMAND_VALIDATE_EXTERNAL);
+		xml.add(validateFile);
 	}
 
 	public void actionPerformed(ActionEvent actionEvent) {
