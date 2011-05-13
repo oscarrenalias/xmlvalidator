@@ -1,7 +1,6 @@
 package net.renalias.xmlvalidator;
 
 import net.renalias.xmlvalidator.ui.XmlValidatorUI;
-import net.renalias.xmlvalidator.ui.components.MenuBar;
 
 import javax.swing.*;
 
