@@ -57,6 +57,12 @@
 		<delete dir="${dist}" />
 	</target>
 	
+	<target name="run" description="Run the application">
+		<java classname="net.renalias.xmlvalidator.Main">
+			<classpath refid="classpath" />			
+		</java>
+	</target>
+	
 	<!-- this target generates a jar file with the needed files -->
 	<target name="jar" depends="clean, compile">
 		<mkdir dir="${dist}" />
