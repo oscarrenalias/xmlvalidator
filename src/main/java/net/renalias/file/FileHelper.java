@@ -1,8 +1,6 @@
 package net.renalias.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class FileHelper {
@@ -28,5 +26,20 @@ public class FileHelper {
 
 	public static boolean isFile(String fileName) {
 		return((new File(fileName)).isFile());
+	}
+
+	public static boolean isWritable(String fileName) {
+		return((new File(fileName)).canWrite());
+	}
+
+	public static boolean exists(String fileName) {
+		return((new File(fileName)).exists());
+	}
+
+	public static void write(String absolutePath, String text) throws IOException {
+		FileWriter fstream = new FileWriter(absolutePath);
+        BufferedWriter out = new BufferedWriter(fstream);
+    	out.write(text);
+    	out.close();
 	}
 }

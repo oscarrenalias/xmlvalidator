@@ -20,15 +20,15 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	public static final String MENUBAR_COMMAND_EXIT = "Exit";
 	public static final String MENUBAR_COMMANT_WORDWRAP = "Wordwrap";
 	public static final String MENUBAR_COMMAND_VALIDATE_EXTERNAL = "Validate with external file";
-	private static final String MENUBAR_COMMAND_SAVESCHEMAFILE = "Save schema file";
-	private static final String MENUBAR_COMMAND_SAVEXMLFILEAS = "Save XML file as...";
-	private static final String MENUBAR_COMMAND_SAVESCHEMAFILEAS = "Save schema file as...";
-	private static final String MENUBAR_COMMAND_UNDO = "Undo";
-	private static final String MENUBAR_COMMAND_REDO = "Redo";
-	private static final String MENUBAR_COMMAND_CUT = "Cut";
-	private static final String MENUBAR_COMMAND_COPY = "Copy";
-	private static final String MENUBAR_COMMAND_PASTE = "Paste";
-	private static final String MENUBAR_COMMAND_DELETE = "Delete";
+	public static final String MENUBAR_COMMAND_SAVESCHEMAFILE = "Save schema file";
+	public static final String MENUBAR_COMMAND_SAVEXMLFILEAS = "Save XML file as...";
+	public static final String MENUBAR_COMMAND_SAVESCHEMAFILEAS = "Save schema file as...";
+	public static final String MENUBAR_COMMAND_UNDO = "Undo";
+	public static final String MENUBAR_COMMAND_REDO = "Redo";
+	public static final String MENUBAR_COMMAND_CUT = "Cut";
+	public static final String MENUBAR_COMMAND_COPY = "Copy";
+	public static final String MENUBAR_COMMAND_PASTE = "Paste";
+	public static final String MENUBAR_COMMAND_DELETE = "Delete";
 
 	public MenuBar() {
 		super();

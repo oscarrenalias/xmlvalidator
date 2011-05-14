@@ -6,11 +6,13 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class EditorTab extends JPanel {
 
 	RSyntaxTextArea messageData;
 	SearchToolBar searchToolbar;
+	File file;
 
 	public EditorTab() {
 		super(new BorderLayout());
@@ -46,5 +48,13 @@ public class EditorTab extends JPanel {
 
 	public void toggleWordWrap() {
 		messageData.setLineWrap(!messageData.getLineWrap());
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

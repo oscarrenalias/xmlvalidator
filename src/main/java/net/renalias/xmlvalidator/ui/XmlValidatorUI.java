@@ -5,21 +5,21 @@ import net.renalias.xmlvalidator.core.ValidationError;
 import net.renalias.xmlvalidator.core.XmlValidator;
 import net.renalias.xmlvalidator.ui.components.*;
 import net.renalias.xmlvalidator.ui.components.MenuBar;
+import net.renalias.xmlvalidator.ui.components.SchemaFileChooser.SchemaFileChooserReturnValue;
 import net.renalias.xmlvalidator.ui.support.CaretHelper;
-import net.renalias.xmlvalidator.ui.components.SchemaFileChooser;
-import net.renalias.xmlvalidator.ui.components.SchemaFileChooser.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListener, MenuItemClickedListener {
 	static private final String newline = "\n";
 	JTabbedPane tabbedPane;
 	protected ValidationDataTab validationDataTab;
-	protected EditorTab[] editorTabs = { new EditorTab(), new SchemaTab() };
+	protected EditorTab[] editorTabs = {new EditorTab(), new SchemaTab()};
 	private JPanel panel;
 	private MenuBar menubar;
 	JFileChooser fileChooser = new JFileChooser();
@@ -60,7 +60,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	}
 
 	protected EditorTab getCurrentTab() {
-		return(editorTabs[tabbedPane.getSelectedIndex()]);
+		return (editorTabs[tabbedPane.getSelectedIndex()]);
 	}
 
 	protected void validateXML() {
@@ -112,13 +112,11 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_FIND)) {
 			getCurrentTab().toogleSearchToolbar();
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE)) {
-			if(editorTabs[1].getText().trim().equals("")) {
+			if (editorTabs[1].getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(null, "Please load or provide a schema in order to validate", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			else
+			} else
 				validateXML();
-		}
-		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_OPENSCHEMAFILE)) {
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_OPENSCHEMAFILE)) {
 			int returnVal = fileChooser.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
@@ -130,22 +128,37 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 					}
 				}
 			}
-		}
-		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_EXIT)) {
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_EXIT)) {
 			System.exit(0);
-		}
-		else if(source.getName().equals(MenuBar.MENUBAR_COMMANT_WORDWRAP)) {
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMANT_WORDWRAP)) {
 			editorTabs[0].toggleWordWrap();
 			editorTabs[1].toggleWordWrap();
-		}
-		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE_EXTERNAL)) {
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE_EXTERNAL)) {
 			SchemaFileChooserReturnValue returnValue = schemaFileChooser.showDialog();
-			if(returnValue == SchemaFileChooserReturnValue.OK) {
+			if (returnValue == SchemaFileChooserReturnValue.OK) {
 				String schemaFile = schemaFileChooser.getSchemaFile();
 				validateXMLFromSchemaFile(schemaFile);
-			}
-			else
+			} else
 				System.out.println("Cancelled!");
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILEAS)) {
+			// save as... dialog
+			try {
+				File file = CustomFileSaveDialog.showSaveAsDialog(this, fileChooser, editorTabs[0].getText());
+				editorTabs[0].setFile(file);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILEAS)) {
+			// save as... dialog
+			try {
+				File file = CustomFileSaveDialog.showSaveAsDialog(this, fileChooser, editorTabs[1].getText());
+				editorTabs[1].setFile(file);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+
+		} else {
+			System.err.println("Error: unrecognized command = " + source.getName());
 		}
 	}
 }
