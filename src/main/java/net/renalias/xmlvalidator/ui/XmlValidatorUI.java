@@ -172,7 +172,20 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
+        }
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_CUT)) {
+            getCurrentTab().getEditor().cut();
+        }
+        else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_PASTE)) {
+            getCurrentTab().getEditor().paste();
+        }
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_COPY)) {
+            getCurrentTab().getEditor().copy();
+        }
+        else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_DELETE)) {
+            //getCurrentTab().getEditor().remo;
+        }
+        else {
             System.err.println("Error: unrecognized command = " + source.getName());
         }
     }
