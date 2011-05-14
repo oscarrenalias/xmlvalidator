@@ -17,7 +17,7 @@ public class EditorTab extends JPanel {
     SearchToolBar searchToolbar;
     File file;
     // whether the editor has unsaved content
-    boolean saved = false;
+    boolean saved = true;
     JFileChooser fileChooser;
 
     public EditorTab() {
