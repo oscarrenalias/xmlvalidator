@@ -25,8 +25,10 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	JFileChooser fileChooser = new JFileChooser();
 	SchemaFileChooser schemaFileChooser;
 
+    protected static String WINDOW_TITLE = "Simple Editor for XML";
+
 	public XmlValidatorUI() {
-		super("XML Validator");
+		super(WINDOW_TITLE);
 		panel = new JPanel(new BorderLayout());
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Source", null, editorTabs[0], "Source XML file");
@@ -138,25 +140,35 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 			if (returnValue == SchemaFileChooserReturnValue.OK) {
 				String schemaFile = schemaFileChooser.getSchemaFile();
 				validateXMLFromSchemaFile(schemaFile);
-			} else
-				System.out.println("Cancelled!");
-		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILEAS)) {
-			// save as... dialog
-			try {
-				File file = CustomFileSaveDialog.showSaveAsDialog(this, fileChooser, editorTabs[0].getText());
-				editorTabs[0].setFile(file);
+			}
+		}
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILEAS)) {
+             try {
+                 editorTabs[0].saveContentsAs(fileChooser);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILEAS)) {
-			// save as... dialog
-			try {
-				File file = CustomFileSaveDialog.showSaveAsDialog(this, fileChooser, editorTabs[1].getText());
-				editorTabs[1].setFile(file);
+		}
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILE)) {
+             try {
+                 editorTabs[0].saveContents(fileChooser);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-
+		}
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILE)) {
+			try {
+                editorTabs[1].saveContents(fileChooser);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+        else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILEAS)) {
+			try {
+                editorTabs[1].saveContentsAs(fileChooser);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		} else {
 			System.err.println("Error: unrecognized command = " + source.getName());
 		}

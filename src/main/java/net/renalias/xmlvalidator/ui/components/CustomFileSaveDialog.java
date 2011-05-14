@@ -7,8 +7,14 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class acts like a file save dialog, except that it shows a warning if the file is going to be overwritten,
+ * asking users for confirmation.
+ *
+ * Returns a File object representing the file that was selected, or null if no file was selected or the dialog was cancelled
+ */
 public class CustomFileSaveDialog {
-	public static File showSaveAsDialog(Component parent, JFileChooser fileChooser, String content) throws IOException {
+	public static File showSaveAsDialog(Component parent, JFileChooser fileChooser, String content) {
 		boolean written = false;
 		boolean cancelled = false;
 		File returnValue = null;
@@ -30,9 +36,8 @@ public class CustomFileSaveDialog {
 
 				if (write) {
 					System.out.print("Writing file as: " + fileChooser.getSelectedFile().getAbsolutePath());
-					FileHelper.write(fileChooser.getSelectedFile().getAbsolutePath(), content);
-					written = true;
 					returnValue = fileChooser.getSelectedFile();
+                    written = true;
 				}
 			} else {
 				cancelled = true;
