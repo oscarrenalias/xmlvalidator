@@ -32,8 +32,11 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		panel = new JPanel(new BorderLayout());
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Source", null, editorTabs[0], "Source XML file");
-
 		tabbedPane.addTab("Schema", null, editorTabs[1], "Schema data");
+
+        // shared file chooser, so that paths are remembers across invocations of the chooser
+        editorTabs[0].setFileChooser(fileChooser);
+        editorTabs[1].setFileChooser(fileChooser);
 
 		validationDataTab = new ValidationDataTab();
 		tabbedPane.addTab("Validation", null, validationDataTab, "Validation error list");
@@ -131,7 +134,9 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 				}
 			}
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_EXIT)) {
-			System.exit(0);
+			editorTabs[0].destroy();
+            editorTabs[1].destroy();
+            System.exit(0);
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMANT_WORDWRAP)) {
 			editorTabs[0].toggleWordWrap();
 			editorTabs[1].toggleWordWrap();
@@ -144,28 +149,28 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		}
         else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILEAS)) {
              try {
-                 editorTabs[0].saveContentsAs(fileChooser);
+                 editorTabs[0].saveContentsAs();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
         else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVEXMLFILE)) {
              try {
-                 editorTabs[0].saveContents(fileChooser);
+                 editorTabs[0].saveContents();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
         else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILE)) {
 			try {
-                editorTabs[1].saveContents(fileChooser);
+                editorTabs[1].saveContents();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
         else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_SAVESCHEMAFILEAS)) {
 			try {
-                editorTabs[1].saveContentsAs(fileChooser);
+                editorTabs[1].saveContentsAs();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "The file cannot be written", "Error", JOptionPane.ERROR_MESSAGE);
 			}
