@@ -21,10 +21,7 @@ public class EditorTab extends JPanel {
 	}
 
 	private Component buildSourceTab() {
-		messageData = new RSyntaxTextArea(25, 90);
-		messageData.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-		messageData.setEditable(true);
-		messageData.setMarkAllHighlightColor(Color.YELLOW);
+		messageData = new XMLTextArea(25, 90);
 		RTextScrollPane messageDataScrollPane = new RTextScrollPane(messageData);
 		messageDataScrollPane.setLineNumbersEnabled(true);
 		return (messageDataScrollPane);
@@ -38,7 +35,7 @@ public class EditorTab extends JPanel {
 		messageData.setText(text);
 	}
 
-	public RSyntaxTextArea getMessageData() {
+	public RSyntaxTextArea getEditor() {
 		return (messageData);
 	}
 

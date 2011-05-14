@@ -20,6 +20,15 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	public static final String MENUBAR_COMMAND_EXIT = "Exit";
 	public static final String MENUBAR_COMMANT_WORDWRAP = "Wordwrap";
 	public static final String MENUBAR_COMMAND_VALIDATE_EXTERNAL = "Validate with external file";
+	private static final String MENUBAR_COMMAND_SAVESCHEMAFILE = "Save schema file";
+	private static final String MENUBAR_COMMAND_SAVEXMLFILEAS = "Save XML file as...";
+	private static final String MENUBAR_COMMAND_SAVESCHEMAFILEAS = "Save schema file as...";
+	private static final String MENUBAR_COMMAND_UNDO = "Undo";
+	private static final String MENUBAR_COMMAND_REDO = "Redo";
+	private static final String MENUBAR_COMMAND_CUT = "Cut";
+	private static final String MENUBAR_COMMAND_COPY = "Copy";
+	private static final String MENUBAR_COMMAND_PASTE = "Paste";
+	private static final String MENUBAR_COMMAND_DELETE = "Delete";
 
 	public MenuBar() {
 		super();
@@ -51,6 +60,39 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
 		file.addSeparator();
 
+		// save XML file
+		JMenuItem saveXMLfile = new JMenuItem("Save XML", KeyEvent.VK_S);
+		saveXMLfile.setName(MENUBAR_COMMAND_SAVEXMLFILE);
+		saveXMLfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+		saveXMLfile.getAccessibleContext().setAccessibleDescription("Save XML file");
+		saveXMLfile.addActionListener(this);
+		file.add(saveXMLfile);
+
+		// save XML as...
+		JMenuItem saveXMLFileAs = new JMenuItem("Save XML as...");
+		saveXMLFileAs.setName(MENUBAR_COMMAND_SAVEXMLFILEAS);
+		saveXMLFileAs.getAccessibleContext().setAccessibleDescription("Save XML file as");
+		saveXMLFileAs.addActionListener(this);
+		file.add(saveXMLFileAs);
+
+		// save schema file
+		JMenuItem saveSchemaFile = new JMenuItem("Save schema", KeyEvent.VK_C);
+		saveSchemaFile.setName(MENUBAR_COMMAND_SAVESCHEMAFILE);
+		saveSchemaFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+		saveSchemaFile.getAccessibleContext().setAccessibleDescription("Save schema file");
+		saveSchemaFile.addActionListener(this);
+		file.add(saveSchemaFile);
+
+		// save schema file as...
+		JMenuItem saveSchemaFileAs = new JMenuItem("Save schema as...");
+		saveSchemaFileAs.setName(MENUBAR_COMMAND_SAVESCHEMAFILEAS);
+		saveSchemaFileAs.getAccessibleContext().setAccessibleDescription("Save schema file as");
+		saveSchemaFileAs.addActionListener(this);
+		file.add(saveSchemaFileAs);
+
+
+		file.addSeparator();
+
 		// exit
 		JMenuItem exit = new JMenuItem("Exit", KeyEvent.VK_T);
 		exit.addActionListener(this);
@@ -62,6 +104,50 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		// Edit menu
 		JMenu edit = new JMenu("Edit");
 		add(edit);
+
+		// Undo
+		JMenuItem undo = new JMenuItem("Undo", KeyEvent.VK_U);
+		undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.ALT_MASK));
+		undo.getAccessibleContext().setAccessibleDescription("Undo");
+		undo.setName(MENUBAR_COMMAND_UNDO);
+		undo.addActionListener(this);
+		edit.add(undo);
+
+		// Redo
+		JMenuItem redo = new JMenuItem("Redo", KeyEvent.VK_R);
+		redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		redo.getAccessibleContext().setAccessibleDescription("Redo");
+		redo.setName(MENUBAR_COMMAND_REDO);
+		redo.addActionListener(this);
+		edit.add(redo);
+
+		edit.addSeparator();
+
+		// cut
+		JMenuItem cut = new JMenuItem("Cut");
+		cut.setName(MENUBAR_COMMAND_CUT);
+		cut.addActionListener(this);
+		edit.add(cut);
+
+		// copy
+		JMenuItem copy = new JMenuItem("Copy");
+		copy.setName(MENUBAR_COMMAND_COPY);
+		copy.addActionListener(this);
+		edit.add(copy);
+
+		// paste
+		JMenuItem paste = new JMenuItem("Paste");
+		paste.setName(MENUBAR_COMMAND_PASTE);
+		paste.addActionListener(this);
+		edit.add(paste);
+
+		// paste
+		JMenuItem delete = new JMenuItem("Delete");
+		delete.setName(MENUBAR_COMMAND_DELETE);
+		delete.addActionListener(this);
+		edit.add(delete);
+
+		edit.addSeparator();
 
 		// Find
 		JMenuItem find = new JMenuItem("Find...", KeyEvent.VK_F);

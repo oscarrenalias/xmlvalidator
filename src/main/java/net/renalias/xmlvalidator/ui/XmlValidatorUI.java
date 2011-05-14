@@ -10,8 +10,6 @@ import net.renalias.xmlvalidator.ui.components.SchemaFileChooser;
 import net.renalias.xmlvalidator.ui.components.SchemaFileChooser.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import javax.xml.validation.Validator;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -21,8 +19,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	static private final String newline = "\n";
 	JTabbedPane tabbedPane;
 	protected ValidationDataTab validationDataTab;
-	protected EditorTab editorTab;
-	protected SchemaTab schemaTab;
+	protected EditorTab[] editorTabs = { new EditorTab(), new SchemaTab() };
 	private JPanel panel;
 	private MenuBar menubar;
 	JFileChooser fileChooser = new JFileChooser();
@@ -31,13 +28,10 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 	public XmlValidatorUI() {
 		super("XML Validator");
 		panel = new JPanel(new BorderLayout());
-		// tabbed pane for validation info
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		editorTab = new EditorTab();
-		tabbedPane.addTab("Source", null, editorTab, "Source XML file");
+		tabbedPane.addTab("Source", null, editorTabs[0], "Source XML file");
 
-		schemaTab = new SchemaTab();
-		tabbedPane.addTab("Schema", null, schemaTab, "Schema data");
+		tabbedPane.addTab("Schema", null, editorTabs[1], "Schema data");
 
 		validationDataTab = new ValidationDataTab();
 		tabbedPane.addTab("Validation", null, validationDataTab, "Validation error list");
@@ -53,7 +47,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 			public boolean dispatchKeyEvent(KeyEvent keyEvent) {
 				if (keyEvent.getKeyCode() == KeyEvent.VK_F && keyEvent.getModifiers() == KeyEvent.CTRL_MASK) {
 					System.out.println("Ctrl+f!");
-					editorTab.toogleSearchToolbar();
+					getCurrentTab().toogleSearchToolbar();
 					return (true);
 				}
 				return (false);
@@ -65,17 +59,21 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 		schemaFileChooser = new SchemaFileChooser(this);
 	}
 
+	protected EditorTab getCurrentTab() {
+		return(editorTabs[tabbedPane.getSelectedIndex()]);
+	}
+
 	protected void validateXML() {
 		// TODO: move this to a separate thread so that the UI is not blocked
 		XmlValidator validator = new XmlValidator();
-		boolean result = validator.validateContent(schemaTab.getText(), editorTab.getText());
+		boolean result = validator.validateContent(editorTabs[1].getText(), editorTabs[0].getText());
 		handleXMLValidation(validator, result);
 	}
 
 	protected void validateXMLFromSchemaFile(String file) {
 		// TODO: move this to a separate thread so that the UI is not blocked
 		XmlValidator validator = new XmlValidator();
-		boolean result = validator.validateSchemaFile(file, editorTab.getText());
+		boolean result = validator.validateSchemaFile(file, editorTabs[0].getText());
 		handleXMLValidation(validator, result);
 	}
 
@@ -92,7 +90,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 
 	public void onElementDoubleClicked(ValidationError element) {
 		// jump to the right place in the text field and activate the tab
-		CaretHelper.goToLineColumm(editorTab.getMessageData(), element.getLine(), element.getColumn());
+		CaretHelper.goToLineColumm(editorTabs[0].getEditor(), element.getLine(), element.getColumn());
 		tabbedPane.setSelectedIndex(0);
 	}
 
@@ -105,19 +103,16 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
 						FileHelper.isFile(fileChooser.getSelectedFile().getAbsolutePath())) {
 					try {
-						editorTab.setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
+						editorTabs[0].setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "File cannot be loaded", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_FIND)) {
-			if(tabbedPane.getSelectedIndex() == 0)
-				editorTab.toogleSearchToolbar();
-			else
-				schemaTab.toogleSearchToolbar();
+			getCurrentTab().toogleSearchToolbar();
 		} else if (source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE)) {
-			if(schemaTab.getText().trim().equals("")) {
+			if(editorTabs[1].getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(null, "Please load or provide a schema in order to validate", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else
@@ -129,7 +124,7 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 				if (FileHelper.isReadable(fileChooser.getSelectedFile().getAbsolutePath()) &&
 						FileHelper.isFile(fileChooser.getSelectedFile().getAbsolutePath())) {
 					try {
-						schemaTab.setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
+						editorTabs[1].setText(FileHelper.readFile(fileChooser.getSelectedFile().getAbsolutePath()));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "File cannot be loaded", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -140,8 +135,8 @@ public class XmlValidatorUI extends JFrame implements ElementDoubleClickedListen
 			System.exit(0);
 		}
 		else if(source.getName().equals(MenuBar.MENUBAR_COMMANT_WORDWRAP)) {
-			editorTab.toggleWordWrap();
-			schemaTab.toggleWordWrap();
+			editorTabs[0].toggleWordWrap();
+			editorTabs[1].toggleWordWrap();
 		}
 		else if(source.getName().equals(MenuBar.MENUBAR_COMMAND_VALIDATE_EXTERNAL)) {
 			SchemaFileChooserReturnValue returnValue = schemaFileChooser.showDialog();
